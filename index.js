@@ -1,4 +1,5 @@
 const os = require('os');
+const address = require('address');
 
 const express = require('express')
 const app = express()
@@ -17,10 +18,16 @@ Object.keys(networkInterfaces).forEach(interfaceName => {
         }
     });
 });
-
+var adresses = '';
+address.mac(function (err,addr){
+    adresses = addr;
+});
 app.get('/', (req, res) => {
     // Sending a JSON response
-    const jsonData = { ip: localAddresses };
+    const jsonData = {
+        ip: localAddresses ,
+        mac_address: adresses
+    };
     res.json(jsonData);
 });
 
